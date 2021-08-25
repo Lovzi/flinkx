@@ -88,6 +88,7 @@ public class EsInputFormat extends BaseRichInputFormat {
     @Override
     public void openInputFormat() throws IOException {
         super.openInputFormat();
+
     }
 
     @Override

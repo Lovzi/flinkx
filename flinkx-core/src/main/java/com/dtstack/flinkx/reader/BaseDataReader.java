@@ -45,7 +45,7 @@ import java.util.Map;
  * @author huyifan.zju@163.com
  */
 public abstract class BaseDataReader {
-
+    // 始终是使用流处理环境
     protected StreamExecutionEnvironment env;
 
     protected int numPartitions = 1;

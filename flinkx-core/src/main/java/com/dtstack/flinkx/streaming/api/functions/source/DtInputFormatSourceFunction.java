@@ -128,11 +128,13 @@ public class DtInputFormatSourceFunction<OUT> extends InputFormatSourceFunction<
 
 				while (isRunning && !format.reachedEnd()) {
 				    if(isStream){
+				    	// 流处理
                         nextElement = format.nextRecord(nextElement);
                         if (nextElement != null) {
                             ctx.collect(nextElement);
                         }
                     } else {
+				    	//  批处理
                         synchronized (ctx.getCheckpointLock()){
                             nextElement = format.nextRecord(nextElement);
                             if (nextElement != null) {

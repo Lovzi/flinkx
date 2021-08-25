@@ -68,6 +68,7 @@ public class KafkaBaseInputFormat extends BaseRichInputFormat {
     protected Map<String, kafkaState> stateMap;
     protected volatile boolean running = false;
     protected transient BlockingQueue<Row> queue;
+    // 内部实现Consumer
     protected transient KafkaBaseConsumer consumer;
     protected transient IDecode decode;
 

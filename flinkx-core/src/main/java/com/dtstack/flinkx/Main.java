@@ -84,6 +84,7 @@ public class Main {
 
         // 解析jobPath指定的任务配置文件
         DataTransferConfig config = DataTransferConfig.parse(job);
+        // plato: 配置速度？
         speedTest(config);
 
         if(StringUtils.isNotEmpty(monitor)) {
@@ -100,6 +101,7 @@ public class Main {
 
         Configuration flinkConf = new Configuration();
         if (StringUtils.isNotEmpty(options.getFlinkconf())) {
+            // 传入flink-conf路径，加载全局配置
             flinkConf = GlobalConfiguration.loadConfiguration(options.getFlinkconf());
         }
 
@@ -107,9 +109,11 @@ public class Main {
                 StreamExecutionEnvironment.getExecutionEnvironment() :
                 new MyLocalStreamEnvironment(flinkConf);
 
+        // 配置checkpoint
         env = openCheckpointConf(env, confProperties);
-        configRestartStrategy(env, config);
 
+        // 配置重启策略
+        configRestartStrategy(env, config);
         SpeedConfig speedConfig = config.getJob().getSetting().getSpeed();
 
         PluginUtil.registerPluginUrlToCachedFile(config, env);
@@ -145,6 +149,7 @@ public class Main {
     }
 
     private static void configRestartStrategy(StreamExecutionEnvironment env, DataTransferConfig config){
+        // 类似kafka的代码风格
         if (needRestart(config)) {
             RestartConfig restartConfig = findRestartConfig(config);
             if (RestartConfig.STRATEGY_FIXED_DELAY.equalsIgnoreCase(restartConfig.getStrategy())) {

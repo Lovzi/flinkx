@@ -92,7 +92,7 @@ public abstract class BaseRichInputFormat extends org.apache.flink.api.common.io
     protected AccumulatorCollector accumulatorCollector;
 
     private boolean inited = false;
-
+    // 是否代表多个任务只有一个InputFormat
     private AtomicBoolean isClosed = new AtomicBoolean(false);
 
     protected transient CustomPrometheusReporter customPrometheusReporter;
@@ -153,6 +153,7 @@ public abstract class BaseRichInputFormat extends org.apache.flink.api.common.io
 
     @Override
     public void open(InputSplit inputSplit) throws IOException {
+        // 如果创建Splits失败，这里会传入一个Error的InputSplit, 和我的OneError有些类似。
         checkIfCreateSplitFailed(inputSplit);
 
         if(!inited){

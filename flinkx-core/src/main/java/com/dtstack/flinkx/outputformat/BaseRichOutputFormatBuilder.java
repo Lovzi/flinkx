@@ -86,13 +86,14 @@ public abstract class BaseRichOutputFormatBuilder {
     public BaseRichOutputFormat finish() {
         checkFormat();
 
-        /**
+        /*
          * 200000条限制的原因：
          * 按照目前的使用情况以及部署配置，假设写入字段数量平均为50个，一个单slot的TaskManager内存为1G，
          * 在不考虑各插件批量写入对内存特殊要求并且只考虑插件缓存这么多条数据的情况下，batchInterval为400000条时出现fullGC，
          * 为了避免fullGC以及OOM，并且保证batchInterval有足够的配置空间，取最大值的一半200000。
          */
         if (this.format.getBatchInterval() > ConstantValue.MAX_BATCH_SIZE) {
+            //  Commit: 这里应该修改成ConstantValue.MAX_BATCH_SIZE
             throw new IllegalArgumentException("批量写入条数必须小于[200000]条");
         }
 

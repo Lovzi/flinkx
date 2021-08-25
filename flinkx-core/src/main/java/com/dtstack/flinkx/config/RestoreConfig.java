@@ -26,6 +26,7 @@ import java.util.Map;
  * @explanation
  * @date 2019/3/25
  */
+
 public class RestoreConfig extends AbstractConfig {
 
     private static final String KEY_IS_RESTORE = "isRestore";
